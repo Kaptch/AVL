@@ -2,8 +2,8 @@
 // Created by kaptch on 3/18/18.
 //
 
-#ifndef TREE1_TREE_H
-#define TREE1_TREE_H
+#ifndef AVL_TREE_H
+#define AVL_TREE_H
 
 #include <functional>
 #include <stack>
@@ -273,4 +273,4 @@ public:
 };
 
 
-#endif //TREE1_TREE_H
+#endif //AVL_TREE_H
