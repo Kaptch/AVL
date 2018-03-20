@@ -75,7 +75,8 @@ private:
         AVL_ptr q = p->_left;
         if (p == _root) {
             _root = q;
-            _sentient->_parent = q;
+            q->_parent = _sentient;
+            //_sentient->_parent = q;
         }
         p->_left = q->_right;
         if (p->_left)
@@ -90,7 +91,8 @@ private:
         AVL_ptr p = q->_right;
         if (q == _root) {
             _root = p;
-            _sentient->_parent = p;
+            p->_parent = _sentient;
+            //_sentient->_parent = p;
         }
         q->_right = p->_left;
         if (q->_right)
@@ -170,6 +172,8 @@ public:
             else {
                 AVL_ptr y = ptr->_parent;
                 while (ptr == y->_right) {
+                    //if (y->_parent == y)
+                        //return;
                     ptr = y;
                     if (!ptr->_parent)
                         return;
