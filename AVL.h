@@ -5,8 +5,11 @@
 #ifndef AVL_TREE_H
 #define AVL_TREE_H
 
+#define DEBUG
+
 #include <functional>
 #include <stack>
+#include <fstream>
 
 template <typename T, typename Compare = std::less<T>> //, typename Alloc = allocator<T>
 class AVL_tree {
@@ -42,12 +45,13 @@ private:
         using AVL_ptr = AVL_Node *;
     public:
         T _data;
-        unsigned int _height;
-        AVL_Node(T x) : _data(x), _height(1) {}
-        AVL_Node(T x, AVL_ptr p, AVL_ptr l, AVL_ptr r) :
-                _data(x), Base_Node(l, r, p), _height(1) {}
-        AVL_Node(T x, AVL_ptr p, AVL_ptr l, AVL_ptr r, unsigned int h) :
-                _data(x), Base_Node(l, r, p), _height(h) {}
+        int balance;
+
+        AVL_Node(T x) : _data(x), balance(0) {}
+
+        AVL_Node(T x, AVL_ptr p, AVL_ptr l, AVL_ptr r) : _data(x), Base_Node(l, r, p), balance(0) {}
+
+        AVL_Node(T x, AVL_ptr p, AVL_ptr l, AVL_ptr r, int b) : _data(x), Base_Node(l, r, p), balance(b) {}
         static AVL_ptr _S_minimum(AVL_ptr p) {
             while (p->_left)
                 p = p->_left;
@@ -64,101 +68,219 @@ private:
     AVL_ptr _sentient;
     AVL_ptr _root;
     bool _empty;
-    unsigned int height(AVL_ptr p) { return p ? p->_height : 0; }
-    unsigned int bfactor(AVL_ptr p) { return height(p->_right)-height(p->_left); }
-    void fixheight(AVL_ptr p) {
-        unsigned int hl = height(p->_left);
-        unsigned int hr = height(p->_right);
-        p->_height = (hl > hr ? hl : hr) + 1;
-    }
-    AVL_ptr rotateRight(AVL_ptr p) {
-        AVL_ptr q = p->_left;
-        if (p == _root) {
-            _root = q;
-            q->_parent = _sentient;
-            //_sentient->_parent = q;
-        }
-        p->_left = q->_right;
-        if (p->_left)
-            p->_left->_parent = p;
-        q->_right = p;
-        p->_parent = q;
-        fixheight(p);
-        fixheight(q);
-        return q;
-    }
-    AVL_ptr rotateLeft(AVL_ptr q) {
-        AVL_ptr p = q->_right;
-        if (q == _root) {
-            _root = p;
-            p->_parent = _sentient;
-            //_sentient->_parent = p;
-        }
-        q->_right = p->_left;
-        if (q->_right)
-            q->_right->_parent = q;
-        p->_left = q;
-        q->_parent = p;
-        fixheight(q);
-        fixheight(p);
-        return p;
-    }
-    AVL_ptr balance(AVL_ptr p) {
-        fixheight(p);
-        if( bfactor(p) == 2 ) {
-            if( bfactor(p->_right) < 0 )
-                p->_right = rotateRight(p->_right);
-            return rotateLeft(p);
-        }
-        if( bfactor(p) == -2 ) {
-            if( bfactor(p->_left) > 0  )
-                p->_left = rotateLeft(p->_left);
-            return rotateRight(p);
-        }
-        return p;
-    }
-    AVL_ptr insert(AVL_ptr proot, T x) {
-        std::stack<AVL_ptr> st;
-        AVL_ptr ans;
-        while (proot) {
-            st.push(proot);
-            if (!comp(x, proot->_data) && !comp(proot->_data, x))
-                return proot;
-            if (comp(x, proot->_data)) {
-                if (proot->_left)
-                    proot = proot->_left;
-                else {
-                    proot->_left = new AVL_Node(x, proot, nullptr, nullptr);
-                    if (proot == _sentient->_right)
-                        _sentient->_right = proot->_left;
-                    ans = proot->_left;
-                    break;
-                }
-            }
-            else {
-                if (proot->_right)
-                    proot = proot->_right;
-                else {
-                    proot->_right = new AVL_Node(x, proot, nullptr, nullptr);
-                    if (proot == _sentient->_left)
-                        _sentient->_left = proot->_right;
-                    ans = proot->_right;
-                    break;
-                }
+#ifdef DEBUG
+    unsigned int rotations;
+#endif
+
+    AVL_ptr rotateLeft(AVL_ptr a) {
+        AVL_ptr b = a->_right;
+        b->_parent = a->_parent;
+        a->_right = b->_left;
+
+        if (a->_right != nullptr)
+            a->_right->_parent = a;
+
+        b->_left = a;
+        a->_parent = b;
+
+        if (b->_parent != _sentient) {
+            if (b->_parent->_right == a) {
+                b->_parent->_right = b;
+            } else {
+                b->_parent->_left = b;
             }
         }
-        while (!st.empty()) {
-            AVL_ptr temp = st.top();
-            fixheight(temp);
-            if (bfactor(temp) == 2 || bfactor(temp) == -2)
-                st.push(balance(temp));
-            st.pop();
+
+        setBalance(a);
+        setBalance(b);
+
+#ifdef DEBUG
+        ++rotations;
+#endif
+
+        return b;
+    }
+
+    AVL_ptr rotateRight(AVL_ptr a) {
+        AVL_ptr b = a->_left;
+        b->_parent = a->_parent;
+        a->_left = b->_right;
+
+        if (a->_left != nullptr)
+            a->_left->_parent = a;
+
+        b->_right = a;
+        a->_parent = b;
+
+        if (b->_parent != _sentient) {
+            if (b->_parent->_right == a) {
+                b->_parent->_right = b;
+            } else {
+                b->_parent->_left = b;
+            }
         }
-        return ans;
+
+        setBalance(a);
+        setBalance(b);
+
+#ifdef DEBUG
+        ++rotations;
+#endif
+
+        return b;
+    }
+
+    AVL_ptr rotateLeftThenRight(AVL_ptr n) {
+        n->_left = rotateLeft(n->_left);
+        return rotateRight(n);
+    }
+
+    AVL_ptr rotateRightThenLeft(AVL_ptr n) {
+        n->_right = rotateRight(n->_right);
+        return rotateLeft(n);
+    }
+
+    void rebalance(AVL_ptr n) {
+        setBalance(n);
+
+        if (n->balance == -2) {
+            if (height(n->_left->_left) >= height(n->_left->_right))
+                n = rotateRight(n);
+            else
+                n = rotateLeftThenRight(n);
+        } else if (n->balance == 2) {
+            if (height(n->_right->_right) >= height(n->_right->_left))
+                n = rotateLeft(n);
+            else
+                n = rotateRightThenLeft(n);
+        }
+
+        if (n->_parent != _sentient) {
+            rebalance(n->_parent);
+        } else {
+            _root = n;
+            _sentient->_parent = n;
+        }
+    }
+
+    int height(AVL_ptr n) {
+        if (n == nullptr)
+            return -1;
+        return 1 + std::max(height(n->_left), height(n->_right));
+    }
+
+    void setBalance(AVL_ptr n) {
+        n->balance = height(n->_right) - height(n->_left);
+    }
+
+    AVL_ptr increment(AVL_ptr ptr) {
+        if (ptr->_right) {
+            ptr = ptr->_right;
+            while (ptr->_left)
+                ptr = ptr->_left;
+        } else {
+            AVL_ptr y = ptr->_parent;
+            while (ptr == y->_right) {
+                //if (y->_parent == y)
+                //return;
+                ptr = y;
+                if (!ptr->_parent)
+                    return _sentient;
+                y = y->_parent;
+            }
+            if (ptr->_right != y)
+                ptr = y;
+        }
+        return ptr;
+    }
+
+    AVL_ptr decrement(AVL_ptr ptr) {
+        if (!ptr->_parent) {
+            ptr = ptr->_right;
+            return _sentient;
+        }
+        if (ptr->_left) {
+            AVL_ptr y = ptr->_left;
+            while (y->_right)
+                y = y->_right;
+            ptr = y;
+        } else {
+            AVL_ptr y = ptr->_parent;
+            while (ptr == y->_left) {
+                ptr = y;
+                y = y->_parent;
+            }
+            ptr = y;
+        }
+        return ptr;
+    }
+
+    AVL_ptr upper_bound(AVL_ptr ptr, const T &x) {
+        if (!ptr)
+            return nullptr;
+
+        if (!comp(x, ptr->_data))
+            return upper_bound(ptr->_right, x);
+        else {
+            if (!ptr->_left)
+                return ptr;
+            AVL_ptr temp = upper_bound(ptr->_left, x);
+            if (temp)
+                return comp(temp->_data, ptr->_data) ? temp : ptr;
+            else
+                return ptr;
+        }
+    }
+
+    AVL_ptr lower_bound(AVL_ptr ptr, const T &x) {
+        if (!ptr)
+            return nullptr;
+
+        if (!comp(x, ptr->_data) && !comp(ptr->_data, x))
+            return ptr;
+
+        if (comp(ptr->_data, x))
+            return lower_bound(ptr->_right, x);
+        else {
+            if (!ptr->_left)
+                return ptr;
+            AVL_ptr temp = lower_bound(ptr->_left, x);
+            if (temp)
+                return comp(temp->_data, ptr->_data) ? temp : ptr;
+            else
+                return ptr;
+        }
+    }
+
+    void print_offset(std::ostream &stream, int offset) {
+        int i;
+        for (i = 0; i < offset; ++i) {
+            stream << "-";
+        }
+    }
+
+    void bst_print_ascii(AVL_ptr tree, std::ostream &stream) {
+        static int offset = 0;
+
+        print_offset(stream, offset);
+
+        if (tree == nullptr) {
+            stream << "+" << std::endl;
+            return;
+        }
+        stream << tree->_data << std::endl;
+
+        offset += 3;
+        bst_print_ascii(tree->_left, stream);
+        bst_print_ascii(tree->_right, stream);
+        offset -= 3;
     }
 public:
     AVL_tree() : _empty(true), _root(nullptr) {
         _sentient = (AVL_ptr)(new Base_Node());
+#ifdef DEBUG
+        rotations = 0;
+#endif
     }
     class iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
     private:
@@ -236,10 +358,13 @@ public:
     iterator begin() { return iterator(_root ? _sentient->_right : _sentient); }
     iterator end() { return iterator(_sentient); }
     bool empty() { return _empty; }
-    iterator max() { return iterator(_root ? AVL_Node::_S_maximum(_root) : _sentient); }
-    iterator min() { return iterator(_root ? AVL_Node::_S_minimum(_root) : _sentient); }
+
+    iterator max() { return iterator(_root ? _sentient->_left : _sentient); }
+
+    iterator min() { return iterator(_root ? _sentient->_right : _sentient); }
     void clear() { if (!empty()) _root->_flush(); }
-    iterator find(T x) {
+
+    iterator find(const T &x) {
         if (_empty) return end();
         auto p = _root;
         while (true) {
@@ -258,22 +383,148 @@ public:
             }
         }
     }
-    iterator insert(T x) {
+
+    iterator insert(const T &x) {
         if (_empty) {
-            _root = new AVL_Node(x, _sentient, nullptr, nullptr);
+            _root = new AVL_Node(x);
+            _root->_parent = _sentient;
             _sentient->_left = _root;
             _sentient->_right = _root;
-            _sentient->_parent = _root; //hmmmmm
+            //_sentient->_parent = _root;
             _empty = false;
             return iterator(_root);
         } else {
-            return iterator(insert(_root, x));
+            AVL_ptr n = _root, parent, ans;
+
+            while (true) {
+                if (!comp(n->_data, x) && !comp(x, n->_data))
+                    return iterator(n);
+
+                parent = n;
+
+                bool goLeft = comp(x, n->_data);
+                n = goLeft ? n->_left : n->_right;
+
+                if (n == nullptr) {
+                    if (goLeft) {
+                        parent->_left = new AVL_Node(x, parent, nullptr, nullptr);
+                        if (parent == _sentient->_right)
+                            _sentient->_right = parent->_left;
+                        ans = parent->_left;
+                    } else {
+                        parent->_right = new AVL_Node(x, parent, nullptr, nullptr);
+                        if (parent == _sentient->_left)
+                            _sentient->_left = parent->_right;
+                        ans = parent->_right;
+                    }
+
+                    rebalance(parent);
+                    break;
+                }
+            }
+            return iterator(ans);
         }
     }
     void erase(iterator it) {
-        //TODO
+        erase(*it);
     }
-    void erase(T x) { erase(iterator(find(x))); }
+
+    void erase(const T &x) {
+        if (_root == nullptr)
+            return;
+
+        AVL_ptr n = _root, parent = _root, delNode = nullptr, child = _root;
+
+        while (child != nullptr) {
+            parent = n;
+            n = child;
+            child = !comp(x, n->_data) ? n->_right : n->_left;
+            if (!comp(x, n->_data) && !comp(n->_data, x))
+                delNode = n;
+        }
+
+        if (delNode != nullptr) {
+            delNode->_data = n->_data;
+
+            if (delNode == _root && !_root->_right && !_root->_left) {
+                _root = nullptr;
+                _sentient->_left = nullptr;
+                _sentient->_right = nullptr;
+                _sentient->_parent = nullptr;
+                _empty = true;
+            }
+
+            if (delNode == _sentient->_right)
+                _sentient->_right = increment(delNode);
+
+            if (delNode == _sentient->_left)
+                _sentient->_left = decrement(delNode);
+
+            child = n->_left != nullptr ? n->_left : n->_right;
+
+            if (!comp(_root->_data, x) && !comp(x, _root->_data)) {
+                _root = child;
+            } else {
+                if (parent->_left == n) {
+                    parent->_left = child;
+                } else {
+                    parent->_right = child;
+                }
+
+                rebalance(parent);
+            }
+        }
+    }
+
+    iterator upper_bound(const T &x) {
+        AVL_ptr t = upper_bound(_root, x);
+        if (t)
+            return iterator(t);
+        else
+            return end();
+    }
+
+    iterator lower_bound(const T &x) {
+        AVL_ptr t = lower_bound(_root, x);
+        if (t)
+            return iterator(t);
+        else
+            return end();
+    }
+
+    void printTree() {
+        bst_print_ascii(_root, std::cout);
+    }
+
+#ifdef DEBUG
+
+    unsigned int get_rotations() {
+        return rotations;
+    }
+
+    void nullify_rotation() {
+        rotations = 0;
+    }
+
+#endif
+
+    void write(const std::string &fn) {
+        std::ofstream ofs;
+        ofs.open(fn);
+        std::for_each(begin(), end(), [&ofs](T x) { ofs << x << " "; });
+        ofs.close();
+    }
+
+    void read(const std::string &fn) {
+        std::ifstream ifs;
+        ifs.open(fn);
+        T temp;
+        while (ifs) {
+            ifs >> temp;
+            insert(temp);
+        }
+        ifs.close();
+    }
 };
 
 
