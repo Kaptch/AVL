@@ -6,6 +6,7 @@
 #define AVL_TREE_H
 
 #define DEBUG
+#undef DEBUG
 
 #include <functional>
 #include <stack>
@@ -432,6 +433,12 @@ public:
     void erase(const T &x) {
         if (_root == nullptr)
             return;
+
+        if (!comp(_root->_data, x) && !comp(x, _root->_data) && !_root->_left && !_root->_right) {
+            _empty = true;
+            delete _root;
+            _root = nullptr;
+        }
 
         AVL_ptr n = _root, parent = _root, delNode = nullptr, child = _root;
 
