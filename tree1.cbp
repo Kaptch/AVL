@@ -8,93 +8,99 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/kaptch/Projects/Cpp/AVL"/>
+				<Option working_dir="/home/kaptch/Projects/cpp/AVL"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/kaptch/Projects/Cpp/AVL"/>
+				<Option working_dir="/home/kaptch/Projects/cpp/AVL"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/kaptch/Projects/Cpp/AVL"/>
+				<Option working_dir="/home/kaptch/Projects/cpp/AVL"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="tree1">
-				<Option output="/home/kaptch/Projects/Cpp/AVL/tree1" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/kaptch/Projects/Cpp/AVL"/>
+				<Option output="/home/kaptch/Projects/cpp/AVL/tree1" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/kaptch/Projects/cpp/AVL"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/../../../../include/c++/7.3.0"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/../../../../include/c++/7.3.0/x86_64-pc-linux-gnu"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/../../../../include/c++/7.3.0/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.1/../../../../include/c++/7.3.1"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.1/../../../../include/c++/7.3.1/x86_64-pc-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.1/../../../../include/c++/7.3.1/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.1/include"/>
 					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/include-fixed"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.1/include-fixed"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 tree1"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 tree1"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="tree1/fast">
-				<Option output="/home/kaptch/Projects/Cpp/AVL/tree1" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/kaptch/Projects/Cpp/AVL"/>
+				<Option output="/home/kaptch/Projects/cpp/AVL/tree1" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/kaptch/Projects/cpp/AVL"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/../../../../include/c++/7.3.0"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/../../../../include/c++/7.3.0/x86_64-pc-linux-gnu"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/../../../../include/c++/7.3.0/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.1/../../../../include/c++/7.3.1"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.1/../../../../include/c++/7.3.1/x86_64-pc-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.1/../../../../include/c++/7.3.1/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.1/include"/>
 					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/include-fixed"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.1/include-fixed"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 tree1/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/Cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 tree1/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/kaptch/Projects/cpp/AVL/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/kaptch/Projects/Cpp/AVL/AVL.h">
+		<Unit filename="/home/kaptch/Projects/cpp/AVL/AVL.h">
 			<Option target="tree1"/>
 		</Unit>
-		<Unit filename="/home/kaptch/Projects/Cpp/AVL/main.cpp">
+		<Unit filename="/home/kaptch/Projects/cpp/AVL/csv.h">
 			<Option target="tree1"/>
 		</Unit>
-		<Unit filename="/home/kaptch/Projects/Cpp/AVL/pairComp.h">
+		<Unit filename="/home/kaptch/Projects/cpp/AVL/main.cpp">
 			<Option target="tree1"/>
 		</Unit>
-		<Unit filename="/home/kaptch/Projects/Cpp/AVL/priority_queue.h">
+		<Unit filename="/home/kaptch/Projects/cpp/AVL/pairComp.h">
 			<Option target="tree1"/>
 		</Unit>
-		<Unit filename="/home/kaptch/Projects/Cpp/AVL/CMakeLists.txt">
+		<Unit filename="/home/kaptch/Projects/cpp/AVL/priority_queue.h">
+			<Option target="tree1"/>
+		</Unit>
+		<Unit filename="/home/kaptch/Projects/cpp/AVL/stringData.h">
+			<Option target="tree1"/>
+		</Unit>
+		<Unit filename="/home/kaptch/Projects/cpp/AVL/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

@@ -3,4 +3,4 @@ project(tree1)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(tree1 main.cpp AVL.h pairComp.h priority_queue.h)
+add_executable(tree1 main.cpp AVL.h pairComp.h priority_queue.h stringData.h csv.h)

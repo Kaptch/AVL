@@ -5,16 +5,27 @@
 #ifndef TREE1_PAIRCOMP_H
 #define TREE1_PAIRCOMP_H
 
-typedef std::pair<std::string, int> pair_t;
-
-struct comparePair1 {
-    bool operator()(const pair_t &a, const pair_t &b) {
-        return (a.first.compare(b.first)) < 0;
+struct compareStr {
+    bool operator()(const std::string &a, const std::string &b) {
+        return (a.compare(b)) < 0;
     }
 };
 
-struct comparePair2 {
-    bool operator()(const pair_t &a, const pair_t &b) {
+struct compareEnc {
+    bool operator()(const std::pair<std::string, int> &a, const std::pair<std::string, int> &b) {
+        return (a.second < b.second);
+    }
+};
+
+struct compareAnagrams {
+    bool operator()(const std::pair<std::string, std::vector<std::string>> &a,
+                    const std::pair<std::string, std::vector<std::string>> &b) {
+        return (a.second.size() < b.second.size());
+    }
+};
+
+struct compareDevs {
+    bool operator()(const std::pair<std::string, double> &a, const std::pair<std::string, double> &b) {
         return (a.second < b.second);
     }
 };

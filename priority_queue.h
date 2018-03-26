@@ -12,33 +12,7 @@ template<typename T, typename Container = std::vector<T>, typename Compare = std
 class priority_queue_f {
     Compare comp = Compare();
     Container cont;
-    unsigned int max_size;
-public:
-    priority_queue_f(unsigned int s) : max_size(s) {}
-
-    ~priority_queue_f() {}
-
-    typename Container::size_type size() { return cont.size(); }
-
-    void add(T x) {
-        if (size() == max_size) {
-            if (comp(x, cont[size() - 1]))
-                return;
-            else
-                cont.pop_back();
-        }
-        cont.push_back(x);
-        int i = size() - 1;
-        int parent = (i - 1) / 2;
-        while (i > 0 && comp(cont[parent], cont[i])) {
-            T temp = cont[i];
-            cont[i] = cont[parent];
-            cont[parent] = temp;
-            i = parent;
-            parent = (i - 1) / 2;
-        }
-    }
-
+    typename Container::size_type max_size;
     void heapify(int i) {
         int left;
         int right;
@@ -57,12 +31,50 @@ public:
         }
     }
 
-    T max() {
-        T res = cont[0];
+public:
+    priority_queue_f(typename Container::size_type s) : max_size(s) {}
+
+    ~priority_queue_f() {}
+
+    typename Container::size_type size() { return cont.size(); }
+
+    void push(const T &x) {
+        int i;
+        if (size() == max_size) {
+            int p = ((size() - 1) - 1) / 2;
+            int min = p;
+            for (; p <= size() - 1; ++p)
+                if (comp(cont[p], cont[min]))
+                    min = p;
+            if (comp(x, cont[min]))
+                return;
+            else {
+                cont[min] = x;
+                i = min;
+            }
+        } else {
+            cont.push_back(x);
+            i = size() - 1;
+        }
+        int parent = (i - 1) / 2;
+        while (i > 0 && comp(cont[parent], cont[i])) {
+            T temp = cont[i];
+            cont[i] = cont[parent];
+            cont[parent] = temp;
+            i = parent;
+            parent = (i - 1) / 2;
+        }
+    }
+
+    const T &top() const {
+        return cont.front();
+    }
+
+    void pop() {
         cont[0] = cont[size() - 1];
         cont.pop_back();
         heapify(0);
-        return res;
+        return;
     }
 };
 

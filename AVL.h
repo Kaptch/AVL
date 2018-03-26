@@ -532,6 +532,8 @@ public:
         }
         ifs.close();
     }
+
+    int rootBalance() { return _root->balance; }
 };
 
 
