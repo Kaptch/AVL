@@ -10,6 +10,9 @@
 
 #include "AVL.h"
 #include "csv.h"
+#include "pairComp.h"
+#include "priority_queue.h"
+#include "stringData.h"
 
 #define SHOW(x) std::cout << # x " = " << x << '\n'
 
